@@ -9,7 +9,7 @@ function Header() {
                 <h1 className="sr-only">Argent Bank</h1>
             </Link>
             <nav className="nav">
-                <NavLink className="main-nav-item" to="/">
+                <NavLink className="main-nav-item" to="/sign-in">
                     <i className="fa fa-user-circle"></i>
                     Sign In
                 </NavLink>
