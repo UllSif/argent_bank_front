@@ -37,7 +37,7 @@ export const updateUserData = createAsyncThunk(
     }
 )
 
-export const profileSlice = createSlice({
+export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
@@ -72,7 +72,7 @@ export const profileSlice = createSlice({
 export const getUserData = (state) => state
 
 //actions
-export const { emptyUserData } = profileSlice.actions
+export const { emptyUserData } = userSlice.actions
 
 //reducers
-export const profileReducer = profileSlice.reducer
+export const userReducer = userSlice.reducer

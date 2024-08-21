@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getUserData, updateUserData } from "./profileSlice";
-import { getAuthToken } from "../LoginForm/authSlice";
+import { getUserData, updateUserData } from "./userSlice";
+import { getAuthToken } from "../AuthForm/authSlice";
 import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
@@ -12,8 +12,6 @@ function UserEditForm({ setEditToggle }) {
     const [userNames, setUserNames] = useState({
         userName: '',
     })
-
-    const canSave = Boolean(userNames.firstName) && Boolean(userNames.lastName)
 
     const handleCancel = () => {
         setEditToggle(false)
@@ -28,10 +26,8 @@ function UserEditForm({ setEditToggle }) {
 
     const handleEdit = async (token, userNames) => {
         const data = { token, userNames }
-        if (canSave) {
-            dispatch(updateUserData(data))
-            setEditToggle(false)
-        }
+        dispatch(updateUserData(data))
+        setEditToggle(false)
     }
 
     return (
@@ -49,7 +45,6 @@ function UserEditForm({ setEditToggle }) {
             <div className="edit-wrapper">
                 <button
                     className="edit-content-button"
-                    disabled={!canSave}
                     onClick={() => handleEdit(token, userNames)}
                 >
                     Save

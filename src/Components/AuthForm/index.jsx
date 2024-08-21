@@ -12,7 +12,7 @@ import {
     getUserToken,
 } from './authSlice'
 
-function LoginForm() {
+function AuthForm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const localStorageToken = localStorage.getItem('token');
@@ -98,4 +98,4 @@ function LoginForm() {
     )
 }
 
-export default LoginForm
+export default AuthForm

@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import { getAuthToken } from "../../Components/LoginForm/authSlice";
-import {fetchUserData, getUserData} from "../../Components/ProfileForm/profileSlice";
-import UserEditForm from "../../Components/ProfileForm";
+import { getAuthToken } from "../../Components/AuthForm/authSlice";
+import {fetchUserData, getUserData} from "../../Components/UserForm/userSlice";
+import UserEditForm from "../../Components/UserForm";
 import BankAccount from "../../Components/BankAccount";
 
 function Profile() {
