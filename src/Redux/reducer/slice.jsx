@@ -18,6 +18,7 @@ const userInitialState = {
     id: '',
     createdAt: '',
     updatedAt: '',
+    error: null,
 }
 
 const BASE_URL = 'http://localhost:3001/api/v1/user';
@@ -119,6 +120,7 @@ export const userSlice = createSlice({
             state.id = ''
             state.createdAt = ''
             state.updatedAt = ''
+            state.error = null
         },
     },
     extraReducers: (builder) => {
@@ -131,12 +133,17 @@ export const userSlice = createSlice({
                 state.id = payload.id;
                 state.createdAt = payload.createdAt;
                 state.updatedAt = payload.updatedAt;
+                state.error = null;
             })
             .addCase(updateUserData.fulfilled, (state, {payload}) => {
                 state.firstName = payload.firstName
                 state.lastName = payload.lastName
                 state.userName = payload.userName
                 state.updatedAt = payload.updatedAt
+                state.error = null
+            })
+            .addCase(updateUserData.rejected, (state) => {
+                state.error = "Failed to update user data";
             })
     },
 })
@@ -147,6 +154,7 @@ export const getAuthConnected = (state) => state.auth.connected
 export const getAuthError = (state) => state.auth.error
 export const getAuthToken = (state) => state.auth.token
 export const getUserData = (state) => state?.user
+export const getUserError = (state) => state?.user.error
 
 //actions
 export const {logout} = authSlice.actions

@@ -1,16 +1,22 @@
 import {useDispatch, useSelector} from 'react-redux'
 
-import {getUserData, getAuthToken, updateUserData} from "../../Redux/reducer/slice";
+import {getUserData, getAuthToken, getUserError, updateUserData} from "../../Redux/reducer/slice";
 import {useState} from "react";
 
 // eslint-disable-next-line react/prop-types
 function UserEditForm({setEditToggle}) {
     const dispatch = useDispatch()
     const token = useSelector(getAuthToken)
+    const userError = useSelector(getUserError);
     const user = useSelector(getUserData)
     const [userName, setUserName] = useState({
         "userName": user.userName || ""
     })
+
+    let contentError = "";
+    if (userError !== null) {
+        contentError = <span className="errorMessage">{userError}</span>;
+    }
 
     const handleCancel = () => {
         setEditToggle(false)
@@ -67,6 +73,7 @@ function UserEditForm({setEditToggle}) {
                     />
                 </div>
             </div>
+            {contentError}
             <div className="edit-content">
                 <button
                     className="edit-content-button"
