@@ -53,7 +53,7 @@ body, #root {
 
 .main-nav-item {
   text-decoration: none;
-  margin-right: 0.5rem;
+  margin-right: 0.6rem;
 }
 
 .main-nav-item:hover {
@@ -71,7 +71,7 @@ body, #root {
 }
 
 .hero {
-  background-image: url('./assets/images/bank-tree.jpeg');
+  background-image: url('./assets/images/bank-tree.webp');
   background-position: 0 -50px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -200,6 +200,52 @@ body, #root {
 .input-wrapper input {
   padding: 5px;
   font-size: 1.2rem;
+}
+
+.edit-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.edit-row {
+  display: flex;
+  align-items: center;
+}
+.edit-row label {
+  margin-right: 10px;
+  width: 100px;
+}
+
+.edit-row input {
+  flex: 1;
+  padding: 5px;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.edit-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.edit-content-button {
+  display: block;
+  width: 100px;
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+}
+.edit-content-button:disabled {
+  border-color: #95b4a9;
+  background-color: #95b4a9;
 }
 
 .footer {

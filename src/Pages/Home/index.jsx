@@ -1,6 +1,7 @@
 import FeatureItem from "../../Components/FeatureItem"
 
 function Home() {
+
     return (
         <main>
             <div className="hero">

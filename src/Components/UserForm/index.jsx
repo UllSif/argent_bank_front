@@ -1,16 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
-import { getUserData, updateUserData } from "./userSlice";
-import { getAuthToken } from "../AuthForm/authSlice";
-import { useState } from "react";
+import {getUserData, getAuthToken, updateUserData} from "../../Redux/reducer/slice";
+import {useState} from "react";
 
 // eslint-disable-next-line react/prop-types
-function UserEditForm({ setEditToggle }) {
+function UserEditForm({setEditToggle}) {
     const dispatch = useDispatch()
     const token = useSelector(getAuthToken)
     const user = useSelector(getUserData)
-    const [userNames, setUserNames] = useState({
-        userName: '',
+    const [userName, setUserName] = useState({
+        "userName": user.userName || ""
     })
 
     const handleCancel = () => {
@@ -18,14 +17,14 @@ function UserEditForm({ setEditToggle }) {
     }
 
     const handleChange = (event) => {
-        setUserNames({
-            ...userNames,
+        setUserName({
+            ...userName,
             [event.target.name]: event.target.value,
         })
     }
 
-    const handleEdit = async (token, userNames) => {
-        const data = { token, userNames }
+    const handleEdit = async (token, userName) => {
+        const data = {token, userName}
         dispatch(updateUserData(data))
         setEditToggle(false)
     }
@@ -33,25 +32,51 @@ function UserEditForm({ setEditToggle }) {
     return (
         <div>
             <div className="edit-wrapper">
-                <input
-                    type="text"
-                    name="userName"
-                    placeholder={user.userName}
-                    value={userNames.userName}
-                    autoFocus
-                    onChange={(e) => handleChange(e)}
-                />
+                <h2>
+                    Edit user info
+                </h2>
+                <div className="edit-row">
+                    User name :
+                    <input
+                        type="text"
+                        name="userName"
+                        placeholder={user.userName}
+                        value={userName.userName}
+                        autoFocus
+                        onChange={(e) => handleChange(e)}
+                    />
+                </div>
+                <div className="edit-row">
+                    First name :
+                    <input
+                        type="text"
+                        name="firstName"
+                        placeholder={user.firstName}
+                        value={userName.firstName}
+                        disabled
+                    />
+                </div>
+                <div className="edit-row">
+                    Last name :
+                    <input
+                        type="text"
+                        name="userName"
+                        placeholder={user.lastName}
+                        value={userName.lastName}
+                        disabled
+                    />
+                </div>
             </div>
-            <div className="edit-wrapper">
+            <div className="edit-content">
                 <button
                     className="edit-content-button"
-                    onClick={() => handleEdit(token, userNames)}
+                    onClick={() => handleEdit(token, userName)}
                 >
                     Save
                 </button>
                 <button
                     className="edit-content-button"
-                    onClick={() => handleCancel(token, userNames)}
+                    onClick={() => handleCancel(token, userName)}
                 >
                     Cancel
                 </button>

@@ -1,28 +1,21 @@
-// Quand on se connecte, le header doit changer (etat modifié par redux)
-// On est redirigé vers la page profile
-// Le bouton remember me doit stocker le token dans le local storage
-
-import { useNavigate } from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {
-    changeUserCredentials,
     getAuthError,
     getAuthStatus,
-    getUserToken,
-} from './authSlice'
+    getUserToken, fetchUserData
+} from '../../Redux/reducer/slice'
 
 function AuthForm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const localStorageToken = localStorage.getItem('token');
     const localStorageEmail = localStorage.getItem('email')
     const localStoragePassword = localStorage.getItem('password')
     const [credentials, setCredentials] = useState({
         email: localStorageEmail || '',
         password: localStoragePassword || '',
     })
-    // const [token, setToken] = useState(localStorageToken || '');
     const [rememberMe, setRememberMe] = useState(true);
 
     const authError = useSelector(getAuthError);
@@ -36,7 +29,7 @@ function AuthForm() {
     if (authStatus === 'failed') {
         contentError = <span className="errorMessage">{authError}</span>
     } else if (authStatus === 'loading') {
-        contentError = 'ok';
+        contentError = 'Loading';
     }
 
     const handleSubmit = async (e) => {
@@ -48,9 +41,18 @@ function AuthForm() {
             localStorage.removeItem('email')
             localStorage.removeItem('password')
         }
-        await dispatch(changeUserCredentials(credentials))
-        await dispatch(getUserToken(credentials))
-        navigate('/profile')
+
+        // Attendre la résolution de l'action getUserToken
+        const token = await dispatch(getUserToken(credentials));
+
+        // Récupérer le token après que l'état ait été mis à jour
+        if (token) {
+            // Récupérer les données utilisateur et rediriger vers le profil
+            await dispatch(fetchUserData(token?.payload?.body?.token));
+            navigate('/profile');
+        } else {
+            console.error('Authentication failed: Token not available');
+        }
     }
 
     const handleChange = (event) => {

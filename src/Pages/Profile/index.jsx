@@ -1,19 +1,21 @@
 import {useEffect, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import { getAuthToken } from "../../Components/AuthForm/authSlice";
-import {fetchUserData, getUserData} from "../../Components/UserForm/userSlice";
+import {useSelector} from 'react-redux'
+import {getAuthConnected, getUserData} from "../../Redux/reducer/slice";
 import UserEditForm from "../../Components/UserForm";
 import BankAccount from "../../Components/BankAccount";
+import {useNavigate} from "react-router-dom";
 
 function Profile() {
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [editToggle, setEditToggle] = useState(false)
-    const token = useSelector(getAuthToken)
     const user = useSelector(getUserData)
+    const connected = useSelector(getAuthConnected);
 
     useEffect(() => {
-        dispatch(fetchUserData(token))
-    }, [dispatch, token])
+        if (!connected) {
+            navigate('/sign-in');
+        }
+    }, [connected, navigate]);
 
     const handleClick = (e) => {
         e.preventDefault()
@@ -25,8 +27,8 @@ function Profile() {
             <div className="header">
                 <h1>
                     Welcome back
-                    <br />
-                    {user.firstName} {user.lastName}
+                    <br/>
+                    {user.userName}
                 </h1>
                 {editToggle ? (
                     <UserEditForm
@@ -42,7 +44,7 @@ function Profile() {
                     </button>
                 )}
             </div>
-            <BankAccount />
+            <BankAccount/>
         </main>
     )
 }
