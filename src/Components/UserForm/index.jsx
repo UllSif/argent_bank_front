@@ -1,39 +1,48 @@
 import {useDispatch, useSelector} from 'react-redux'
-
 import {getUserData, getAuthToken, getUserError, updateUserData} from "../../Redux/reducer/slice";
 import {useState} from "react";
 
 // eslint-disable-next-line react/prop-types
 function UserEditForm({setEditToggle}) {
-    const dispatch = useDispatch()
-    const token = useSelector(getAuthToken)
+    const dispatch = useDispatch();
+    const token = useSelector(getAuthToken);
     const userError = useSelector(getUserError);
-    const user = useSelector(getUserData)
+    const user = useSelector(getUserData);
+
     const [userName, setUserName] = useState({
         "userName": user.userName || ""
-    })
+    });
+    const [hasSubmitted, setHasSubmitted] = useState(false); // État pour contrôler la soumission du formulaire
 
     let contentError = "";
-    if (userError !== null) {
+    if (hasSubmitted && userError !== null) {
         contentError = <span className="errorMessage">{userError}</span>;
     }
 
     const handleCancel = () => {
-        setEditToggle(false)
-    }
+        setEditToggle(false);
+        setHasSubmitted(false); // Réinitialise l'état de soumission lors de l'annulation
+    };
 
     const handleChange = (event) => {
         setUserName({
             ...userName,
             [event.target.name]: event.target.value,
-        })
-    }
+        });
+    };
 
     const handleEdit = async (token, userName) => {
-        const data = {token, userName}
-        dispatch(updateUserData(data))
-        setEditToggle(false)
-    }
+        setHasSubmitted(true); // Indique que l'utilisateur a soumis le formulaire
+        const data = { token, userName };
+
+        if (userError !== null) {
+            setEditToggle(true);
+        } else {
+            dispatch(updateUserData(data));
+            setEditToggle(false);
+            setHasSubmitted(false); // Réinitialise après soumission réussie
+        }
+    };
 
     return (
         <div>
@@ -83,13 +92,13 @@ function UserEditForm({setEditToggle}) {
                 </button>
                 <button
                     className="edit-content-button"
-                    onClick={() => handleCancel(token, userName)}
+                    onClick={() => handleCancel()}
                 >
                     Cancel
                 </button>
             </div>
         </div>
-    )
+    );
 }
 
-export default UserEditForm
+export default UserEditForm;

@@ -36,7 +36,7 @@ function Header() {
                 {connected && (
                     <>
                         <NavLink className="main-nav-item" to="/profile">
-                            <FontAwesomeIcon icon={faUserCircle}/> {user.firstName} {user.lastName}
+                            <FontAwesomeIcon icon={faUserCircle}/> {user.userName}
                         </NavLink>
                         <NavLink className="main-nav-item" to="/" onClick={handleLogOut}>
                             <FontAwesomeIcon icon={faSignOut}/>  Sign out

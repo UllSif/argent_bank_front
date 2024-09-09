@@ -66,7 +66,7 @@ paths:
       summary: User Profile API
       description: API for fetching a user profile
       #produces:
-       # - application/json
+      # - application/json
       responses:
         '200':
           description: User profile retrieved successully
@@ -101,7 +101,7 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /transactions:
+  /{accountId}/transactions:
     get:
       tags:
         - Transactions Module
@@ -110,16 +110,16 @@ paths:
       security:
         - Bearer: []
       parameters:
+        - in: path
+          name: accountId
+          required: true
+          type: string
+          description: ID of the account to retrieve transactions for
         - in: header
           name: Authorization
           type: string
           description: JWT token for authentication
           required: true
-        - in: query
-          name: accountId
-          type: string
-          required: false
-          description: Account ID to filter transactions by account
       produces:
         - application/json
       responses:
@@ -142,6 +142,11 @@ paths:
       security:
         - Bearer: []
       parameters:
+        - in: path
+          name: accountId
+          required: true
+          type: string
+          description: ID of the account where the transaction will be added
         - in: header
           name: Authorization
           type: string
@@ -153,12 +158,14 @@ paths:
             $ref: "#/definitions/TransactionUpdate"
           required: true
       responses:
-        200:
+        "200":
           description: Transaction successfully created
-        400:
+        "400":
           description: Invalid request (incorrect transaction data)
+        "500":
+          description: Internal Server Error
 
-  /transactions/{transactionId}:
+  /{accountId}/transactions/{transactionId}:
     get:
       tags:
         - Transactions Module
@@ -168,10 +175,20 @@ paths:
         - Bearer: []
       parameters:
         - in: path
+          name: accountId
+          required: true
+          type: string
+          description: ID of the account
+        - in: path
           name: transactionId
           required: true
           type: string
           description: ID of the transaction to retrieve details for
+        - in: header
+          name: Authorization
+          type: string
+          description: JWT token for authentication
+          required: true
       produces:
         - application/json
       responses:
@@ -193,10 +210,20 @@ paths:
         - Bearer: []
       parameters:
         - in: path
+          name: accountId
+          required: true
+          type: string
+          description: ID of the account
+        - in: path
           name: transactionId
           required: true
           type: string
           description: ID of the transaction to update
+        - in: header
+          name: Authorization
+          type: string
+          description: JWT token for authentication
+          required: true
         - in: body
           name: body
           required: true
@@ -275,16 +302,25 @@ definitions:
     properties:
       id:
         type: string
-      accountId:
+      category:
         type: string
-      type:
-        type: string
+        description: Montant de la transaction
       amount:
         type: number
+        description: Montant de la transaction
       date:
         type: string
-      description:
+        format: date
+        description: Date de la transaction
+      month:
         type: string
+        description: The month of the transaction
+      note:
+        type: string
+        description: Description de la transaction
+      accountId:
+        type: string
+        description: ID du compte concerné par la transaction
   TransactionDetails:
     allOf:
       - $ref: '#/definitions/Transaction'
@@ -300,7 +336,7 @@ definitions:
         type: string
       amount:
         type: number
-      description:
+      note:
         type: string
       category:
         type: string

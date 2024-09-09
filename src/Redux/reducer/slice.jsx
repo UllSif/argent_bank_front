@@ -143,7 +143,7 @@ export const userSlice = createSlice({
                 state.error = null
             })
             .addCase(updateUserData.rejected, (state) => {
-                state.error = "Failed to update user data";
+                state.error = "An error occurred, please try again later";
             })
     },
 })
