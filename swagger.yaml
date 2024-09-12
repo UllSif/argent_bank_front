@@ -115,11 +115,6 @@ paths:
           required: true
           type: string
           description: ID of the account to retrieve transactions for
-        - in: header
-          name: Authorization
-          type: string
-          description: JWT token for authentication
-          required: true
       produces:
         - application/json
       responses:
@@ -131,37 +126,6 @@ paths:
               $ref: "#/definitions/Transaction"
         "400":
           description: Invalid request parameters
-        "500":
-          description: Internal Server Error
-
-    post:
-      tags:
-        - Transactions Module
-      summary: Add a new transaction
-      description: API endpoint for creating a new transaction
-      security:
-        - Bearer: []
-      parameters:
-        - in: path
-          name: accountId
-          required: true
-          type: string
-          description: ID of the account where the transaction will be added
-        - in: header
-          name: Authorization
-          type: string
-          description: JWT token for authentication
-          required: true
-        - in: body
-          name: body
-          schema:
-            $ref: "#/definitions/TransactionUpdate"
-          required: true
-      responses:
-        "200":
-          description: Transaction successfully created
-        "400":
-          description: Invalid request (incorrect transaction data)
         "500":
           description: Internal Server Error
 
@@ -184,11 +148,6 @@ paths:
           required: true
           type: string
           description: ID of the transaction to retrieve details for
-        - in: header
-          name: Authorization
-          type: string
-          description: JWT token for authentication
-          required: true
       produces:
         - application/json
       responses:
@@ -219,11 +178,6 @@ paths:
           required: true
           type: string
           description: ID of the transaction to update
-        - in: header
-          name: Authorization
-          type: string
-          description: JWT token for authentication
-          required: true
         - in: body
           name: body
           required: true
@@ -235,7 +189,7 @@ paths:
         "200":
           description: Transaction updated successfully
           schema:
-            $ref: "#/definitions/ApiResponse"
+            $ref: "#/definitions/TransactionDetails"
         "404":
           description: Transaction not found
         "500":
@@ -332,13 +286,7 @@ definitions:
   TransactionUpdate:
     type: object
     properties:
-      type:
-        type: string
-      amount:
-        type: number
       note:
         type: string
       category:
-        type: string
-      status:
         type: string
